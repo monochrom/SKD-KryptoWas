@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>p5 Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Panchang:wght@800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="controls">
+    <div class="control-row">
+      <label for="fileInput">Upload</label>
+      <input id="fileInput" type="file" accept="image/*,video/*" />
+    </div>
+
+    <div class="control-row">
+      <label for="modeSelect">Dither type</label>
+      <select id="modeSelect">
+        <option value="Threshold">Threshold</option>
+        <option value="Random">Random</option>
+        <option value="Bayer 4x4">Bayer 4x4</option>
+        <option value="Floyd-Steinberg">Floyd-Steinberg</option>
+        <option value="Atkinson">Atkinson</option>
+        <option value="ASCII">ASCII</option>
+      </select>
+    </div>
+
+    <div class="control-row">
+      <label for="thresholdSlider">Threshold</label>
+      <div class="slider-row">
+        <input id="thresholdSlider" type="range" min="0" max="255" step="1" value="127" />
+        <input id="thresholdValue" class="value-input" type="number" min="0" max="255" step="1" value="127" />
+      </div>
+    </div>
+
+    <div class="control-row">
+      <label for="pixelSizeSlider">Pixel size</label>
+      <div class="slider-row">
+        <input id="pixelSizeSlider" type="range" min="1" max="20" step="1" value="4" />
+        <input id="pixelSizeValue" class="value-input" type="number" min="1" max="20" step="1" value="4" />
+      </div>
+    </div>
+
+    <div class="control-row">
+      <label for="contrastSlider">Contrast</label>
+      <div class="slider-row">
+        <input id="contrastSlider" type="range" min="0" max="300" step="1" value="140" />
+        <input id="contrastValue" class="value-input" type="number" min="0" max="300" step="1" value="140" />
+      </div>
+    </div>
+
+    <div class="control-row">
+      <label for="brightnessSlider">Brightness</label>
+      <div class="slider-row">
+        <input id="brightnessSlider" type="range" min="-150" max="150" step="1" value="0" />
+        <input id="brightnessValue" class="value-input" type="number" min="-150" max="150" step="1" value="0" />
+      </div>
+    </div>
+
+    <div class="control-row">
+      <label for="posterizeSlider">Posterize</label>
+      <div class="slider-row">
+        <input id="posterizeSlider" type="range" min="2" max="16" step="1" value="4" />
+        <input id="posterizeValue" class="value-input" type="number" min="2" max="16" step="1" value="4" />
+      </div>
+    </div>
+
+    <div class="control-row">
+      <label for="noiseSlider">Noise</label>
+      <div class="slider-row">
+        <input id="noiseSlider" type="range" min="0" max="100" step="1" value="0" />
+        <input id="noiseValue" class="value-input" type="number" min="0" max="100" step="1" value="0" />
+      </div>
+    </div>
+
+    <div class="control-row">
+      <label for="blurSlider">Blur</label>
+      <div class="slider-row">
+        <input id="blurSlider" type="range" min="0" max="5" step="1" value="0" />
+        <input id="blurValue" class="value-input" type="number" min="0" max="5" step="1" value="0" />
+      </div>
+    </div>
+
+    <div class="control-row checkbox-row">
+      <label><input id="invertCheckbox" type="checkbox" /> Invert</label>
+    </div>
+
+    <div id="videoControls" class="video-panel hidden">
+      <div class="button-row button-grid">
+        <button id="playButton" type="button">Play</button>
+        <button id="pauseButton" type="button">Pause</button>
+        <button id="restartButton" type="button">Restart</button>
+      </div>
+
+      <div class="control-row">
+        <label for="seekSlider">Time <span id="timeDisplay">00:00 / 00:00</span></label>
+        <input id="seekSlider" type="range" min="0" max="1000" step="1" value="0" />
+      </div>
+
+      <div class="control-row">
+        <label for="videoScaleSelect">Video processing resolution</label>
+        <select id="videoScaleSelect">
+          <option value="0.25">25%</option>
+          <option value="0.5" selected>50%</option>
+          <option value="0.75">75%</option>
+          <option value="1">100%</option>
+        </select>
+      </div>
+
+      <div class="control-row">
+        <label for="exportFormatSelect">Export format</label>
+        <select id="exportFormatSelect">
+          <option value="auto" selected>Auto</option>
+          <option value="mp4">MP4</option>
+          <option value="webm">WebM</option>
+        </select>
+      </div>
+
+      <div class="control-row">
+        <label for="exportFpsSelect">Export FPS</label>
+        <select id="exportFpsSelect">
+          <option value="15">15 FPS</option>
+          <option value="24">24 FPS</option>
+          <option value="25" selected>25 FPS</option>
+          <option value="30">30 FPS</option>
+        </select>
+      </div>
+
+      <div class="control-row checkbox-row">
+        <label><input id="loopCheckbox" type="checkbox" /> Loop preview</label>
+      </div>
+
+      <div class="control-row checkbox-row">
+        <label><input id="audioCheckbox" type="checkbox" checked /> Include audio if available</label>
+      </div>
+
+      <div class="button-row button-grid">
+        <button id="exportVideoButton" type="button">Export video</button>
+        <button id="cancelExportButton" type="button" disabled>Cancel</button>
+      </div>
+
+      <div class="control-row">
+        <label for="exportProgress">Export progress</label>
+        <progress id="exportProgress" max="100" value="0"></progress>
+      </div>
+    </div>
+
+    <div class="button-row">
+      <button id="redrawButton" type="button">Redraw</button>
+      <button id="saveButton" type="button">Save PNG</button>
+      <button id="saveSvgButton" type="button">Save SVG</button>
+    </div>
+
+    <div id="statusMessage" class="status-message">Lade ein Bild oder Video hoch, um zu starten.</div>
+  </div>
+
+  <div id="canvas-container"></div>
+  <script src="sketch.js"></script>
+</body>
+</html>
