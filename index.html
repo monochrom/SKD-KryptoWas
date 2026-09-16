@@ -157,7 +157,19 @@
     <div id="statusMessage" class="status-message">Lade ein Bild oder Video hoch, um zu starten.</div>
   </div>
 
-  <div id="canvas-container"></div>
+  <section class="preview" aria-label="Preview">
+    <div class="zoom-toolbar" role="group" aria-label="Preview zoom">
+      <button id="zoomOutButton" type="button" aria-label="Zoom out">−</button>
+      <output id="zoomLevel" aria-live="polite">100%</output>
+      <button id="zoomInButton" type="button" aria-label="Zoom in">+</button>
+      <button id="zoomActualButton" type="button">100%</button>
+      <button id="zoomFitButton" type="button" aria-pressed="true">Einpassen</button>
+    </div>
+    <div id="previewViewport" tabindex="0" aria-label="Scrollable preview">
+      <div id="canvas-container"></div>
+    </div>
+  </section>
   <script src="sketch.js"></script>
+  <script src="zoom.js"></script>
 </body>
 </html>
